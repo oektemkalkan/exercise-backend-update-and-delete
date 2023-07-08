@@ -17,7 +17,7 @@ export default function HomePage() {
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
 
-    const response = await fetch("/api/fish-shop", {
+    const response = await fetch("/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,9 +25,13 @@ export default function HomePage() {
       body: JSON.stringify(productData),
     });
 
-    if (response.ok) {
-      mutate();
+    if (!response.ok) {
+      console.error(response.status);
+      return;
     }
+
+    mutate();
+    event.target.reset();
   }
   return (
     <>
